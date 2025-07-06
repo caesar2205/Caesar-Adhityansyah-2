@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gudang Saya</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: linear-gradient(135deg, #F7C6C7 60%, #fff0f3 100%);
+      min-height: 100vh;
+      color: #2d2d2d;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 90px;
+    }
+    .card {
+      background: #fff0f3;
+      border-radius: 1.2rem;
+      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.04);
+      padding: 2.2rem 1.7rem 1.7rem 1.7rem;
+      width: 100%;
+      max-width: 370px;
+      margin: 2.2rem 0 0 0;
+      text-align: center;
+      transition: box-shadow 0.2s;
+      animation: fadeIn 0.4s;
+    }
+    .card:focus-within, .card:hover {
+      box-shadow: 0 10px 40px 0 rgba(0,0,0,0.13), 0 2px 8px 0 rgba(0,0,0,0.06);
+    }
+    .logo {
+      font-size: 54px;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 2px 4px #e0bfc2);
+    }
+    .title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 1.3rem;
+      color: #E11D48;
+      letter-spacing: 0.5px;
+    }
+    .form-label {
+      display: block;
+      text-align: left;
+      font-weight: 500;
+      font-size: 0.98rem;
+      margin-bottom: 0.18rem;
+      margin-top: 0.7rem;
+      color: #8B5CF6;
+    }
+    .form-input {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 0.7rem;
+      border: 1.5px solid #e0bfc2;
+      margin-bottom: 0.7rem;
+      font-size: 1rem;
+      background: #fff;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .form-input:focus {
+      border: 1.5px solid #8B5CF6;
+      box-shadow: 0 0 0 2px #f7c6c7a0;
+      background: #f9f6fa;
+    }
+    .form-input[readonly] {
+      background: #f7f7f7;
+      color: #aaa;
+    }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      border: none;
+      border-radius: 0.7rem;
+      background: linear-gradient(90deg, #4CAF50 60%, #22D3EE 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.08rem;
+      cursor: pointer;
+      margin-bottom: 0.7rem;
+      box-shadow: 0 2px 8px 0 rgba(76,175,80,0.08);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+    .btn:hover, .btn:focus {
+      background: linear-gradient(90deg, #22D3EE 0%, #4CAF50 100%);
+      box-shadow: 0 4px 16px 0 rgba(76,175,80,0.13);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .btn[style*='background:#E11D48'] {
+      background: linear-gradient(90deg, #E11D48 60%, #F59E42 100%) !important;
+    }
+    .btn[style*='background:#E11D48']:hover, .btn[style*='background:#E11D48']:focus {
+      background: linear-gradient(90deg, #F59E42 0%, #E11D48 100%) !important;
+    }
+    .btn[style*='background:#F59E42'] {
+      background: linear-gradient(90deg, #F59E42 60%, #8B5CF6 100%) !important;
+    }
+    .btn[style*='background:#F59E42']:hover, .btn[style*='background:#F59E42']:focus {
+      background: linear-gradient(90deg, #8B5CF6 0%, #F59E42 100%) !important;
+    }
+    .btn[style*='background:#8B5CF6'] {
+      background: linear-gradient(90deg, #8B5CF6 60%, #22D3EE 100%) !important;
+    }
+    .btn[style*='background:#8B5CF6']:hover, .btn[style*='background:#8B5CF6']:focus {
+      background: linear-gradient(90deg, #22D3EE 0%, #8B5CF6 100%) !important;
+    }
+    .stok-list {
+      text-align: left;
+      margin-top: 1.5rem;
+    }
+    .stok-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.7rem;
+      background: #f7c6c7;
+      border-radius: 0.6rem;
+      padding: 0.5rem 0.7rem;
+      box-shadow: 0 1px 4px 0 #e0bfc2a0;
+      transition: box-shadow 0.2s;
+    }
+    .stok-item:hover {
+      box-shadow: 0 4px 12px 0 #e0bfc2cc;
+    }
+    .stok-bar {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      margin-right: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1rem;
+      box-shadow: 0 1px 4px 0 #e0bfc2a0;
+    }
+    .stok-bar-1 { background: #8B5CF6; }
+    .stok-bar-2 { background: #F59E42; }
+    .stok-bar-3 { background: #E11D48; }
+    .stok-bar-4 { background: #22D3EE; }
+    .stok-bar-5 { background: #F59E42; }
+    .stok-nama {
+      flex: 1;
+      font-weight: 500;
+      color: #2d2d2d;
+    }
+    .stok-jumlah {
+      font-weight: bold;
+      color: #333;
+      font-size: 1.08rem;
+    }
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      background: #fff0f3ee;
+      border-top: 1.5px solid #e0bfc2;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 64px;
+      z-index: 100;
+      box-shadow: 0 -2px 16px 0 #e0bfc2a0;
+      transition: box-shadow 0.2s;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      font-size: 2.1rem;
+      color: #bdbdbd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.1s;
+      outline: none;
+      padding: 0 0.5rem;
+    }
+    .nav-btn.active {
+      color: #E11D48;
+      transform: scale(1.13);
+    }
+    .nav-btn:hover, .nav-btn:focus {
+      color: #8B5CF6;
+      transform: scale(1.08);
+    }
+    .nav-label {
+      font-size: 0.85rem;
+      margin-top: 2px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    a {
+      color: #E11D48;
+      text-decoration: underline;
+      font-size: 0.98rem;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #8B5CF6;
+    }
+    /* Responsive */
+    @media (max-width: 500px) {
+      .container { padding: 0 0.5rem; }
+      .card { padding: 1.2rem 0.5rem; }
+      .stok-item { padding: 0.4rem 0.3rem; }
+    }
+    @media (max-width: 370px) {
+      .card { max-width: 98vw; }
+    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(20px);} to { opacity:1; transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <!-- Toast Notification -->
+  <div id="toast" style="position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;min-width:200px;max-width:90vw;display:none;padding:1rem 1.5rem;background:#8B5CF6;color:#fff;border-radius:1rem;box-shadow:0 2px 12px #8B5CF688;font-weight:600;text-align:center;font-size:1rem;transition:opacity 0.3s;opacity:0;pointer-events:none;">Notifikasi</div>
+  <!-- HEADER / TOPBAR -->
+  <div id="topbar" style="position:fixed;top:0;left:0;right:0;height:56px;background:#fff0f3ee;box-shadow:0 2px 12px #e0bfc2a0;z-index:100;display:none;align-items:center;justify-content:center;padding:0 1rem;">
+    <span id="topbar-title" style="font-size:1.2rem;font-weight:600;color:#E11D48;letter-spacing:0.5px;"></span>
+  </div>
+  <div class="container">
+    <!-- LOGIN PAGE -->
+    <div class="card" id="login-page">
+      <div class="logo">&#128230;</div>
+      <div class="title">Welcome User</div>
+      <form id="login-form">
+        <label class="form-label" for="username">Username</label>
+        <input class="form-input" type="text" id="username" placeholder="Enter your username" required>
+        <label class="form-label" for="password">Password</label>
+        <input class="form-input" type="password" id="password" placeholder="Enter your password" required>
+        <button class="btn" type="submit">Sign In</button>
+      </form>
+      <div style="margin-top:1rem;"><a href="#" onclick="showRegister()" style="color:#E11D48;text-decoration:underline;">Belum punya akun? Daftar</a></div>
+    </div>
+    <!-- DASHBOARD PAGE -->
+    <div class="card" id="dashboard-page" style="display:none;">
+      <div class="title" style="margin-bottom:0.7rem;">Dashboard</div>
+      <div style="font-size:1.1rem;margin-bottom:1.2rem;">Selamat datang di aplikasi Gudang Saya!</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:1.2rem;">
+        <div style="background:#8B5CF6;color:#fff;border-radius:0.7rem;padding:1rem 1.2rem;flex:1;margin-right:0.5rem;box-shadow:0 2px 8px #8B5CF633;">
+          <div style="font-size:1.2rem;font-weight:600;">94</div>
+          <div style="font-size:0.95rem;">Total Stok</div>
+        </div>
+        <div style="background:#F59E42;color:#fff;border-radius:0.7rem;padding:1rem 1.2rem;flex:1;margin-left:0.5rem;box-shadow:0 2px 8px #F59E4266;">
+          <div style="font-size:1.2rem;font-weight:600;">5</div>
+          <div style="font-size:0.95rem;">Jenis Barang</div>
+        </div>
+      </div>
+      <div style="margin:1.2rem 0 0.5rem 0;font-size:1.05rem;font-weight:500;">Grafik Mini (Dummy)</div>
+      <div style="width:100%;height:60px;background:linear-gradient(90deg,#8B5CF6 60%,#F59E42 100%);border-radius:0.7rem;opacity:0.15;margin-bottom:1.5rem;"></div>
+      <div style="font-size:0.98rem;color:#888;">Gunakan menu di bawah untuk mengelola stok dan akun Anda.</div>
+    </div>
+    <!-- REGISTER PAGE -->
+    <div class="card" id="register-page" style="display:none;">
+      <div class="title">Buat Akun?</div>
+      <form id="register-form">
+        <label class="form-label" for="reg-phone">Masukan Nomor Telpon</label>
+        <input class="form-input" type="text" id="reg-phone" placeholder="Masukan Nomor Telpon" required>
+        <label class="form-label" for="reg-email">Masukan Email</label>
+        <input class="form-input" type="email" id="reg-email" placeholder="Masukan Email" required>
+        <label class="form-label" for="reg-pass">Masukan Password</label>
+        <input class="form-input" type="password" id="reg-pass" placeholder="Masukan Password" required>
+        <label class="form-label" for="reg-pass2">Ulangi Password</label>
+        <input class="form-input" type="password" id="reg-pass2" placeholder="Ulangi Password" required>
+        <button class="btn" type="submit">Daftar</button>
+        <button class="btn" type="button" style="background:#E11D48;" onclick="showLogin()">Kembali</button>
+      </form>
+    </div>
+    <!-- DASHBOARD STOK -->
+    <div class="card" id="stok-page" style="display:none;">
+      <div class="title">Gudang Saya</div>
+      <div class="stok-list">
+        <div class="stok-item"><div class="stok-bar stok-bar-1">1</div><div class="stok-nama">Barang 1</div><div class="stok-jumlah">20</div></div>
+        <div class="stok-item"><div class="stok-bar stok-bar-2">2</div><div class="stok-nama">Barang 2</div><div class="stok-jumlah">15</div></div>
+        <div class="stok-item"><div class="stok-bar stok-bar-3">3</div><div class="stok-nama">Barang 3</div><div class="stok-jumlah">14</div></div>
+        <div class="stok-item"><div class="stok-bar stok-bar-4">4</div><div class="stok-nama">Barang 4</div><div class="stok-jumlah">11</div></div>
+        <div class="stok-item"><div class="stok-bar stok-bar-5">5</div><div class="stok-nama">Barang 5</div><div class="stok-jumlah">34</div></div>
+      </div>
+      <div style="margin-top:1.5rem;display:flex;gap:10px;justify-content:center;">
+        <button class="btn" style="background:#E11D48;width:auto;padding:0.5rem 1rem;" onclick="showAddStok()">Add New Stok</button>
+        <button class="btn" style="background:#F59E42;width:auto;padding:0.5rem 1rem;" onclick="showHistory()">View Stok</button>
+        <button class="btn" style="background:#8B5CF6;width:auto;padding:0.5rem 1rem;" onclick="showEditStok()">Edit Barang</button>
+      </div>
+    </div>
+    <!-- HISTORI PAGE -->
+    <div class="card" id="history-page" style="display:none;">
+      <div class="title">Gudang Saya<br><span style='font-size:1rem;font-weight:normal;'>Histori</span></div>
+      <ul style="text-align:left; margin-top:1.5rem; padding-left:0; list-style:none;">
+        <li>Barang 1 telah di Tambahkan</li>
+        <li>Barang 2 telah di Ubah</li>
+        <li>Barang 7 telah di Ubah</li>
+        <li>Barang 6 telah di Tambahkan</li>
+      </ul>
+      <button class="btn" style="background:#E11D48;" onclick="if(confirm('Yakin hapus histori?')) showToast('Histori dihapus!','#E11D48');">Hapus Histori</button>
+      <button class="btn" type="button" onclick="showStok()">Kembali</button>
+    </div>
+    <!-- ADD STOK PAGE -->
+    <div class="card" id="addstok-page" style="display:none;">
+      <div class="title">Gudang Saya<br><span style='font-size:1rem;font-weight:normal;'>Add New Stok</span></div>
+      <form id="addstok-form">
+        <label class="form-label" for="add-nama">Nama Barang</label>
+        <input class="form-input" type="text" id="add-nama" placeholder="Nama Barang" required>
+        <label class="form-label" for="add-img">Upload gambar Barang</label>
+        <input class="form-input" type="file" id="add-img">
+        <button class="btn" type="submit">Simpan Data</button>
+        <button class="btn" type="button" style="background:#E11D48;" onclick="showStok()">Kembali</button>
+      </form>
+    </div>
+    <!-- EDIT STOK PAGE -->
+    <div class="card" id="editstok-page" style="display:none;">
+      <div class="title">Gudang Saya<br><span style='font-size:1rem;font-weight:normal;'>Edit Barang</span></div>
+      <form id="editstok-form">
+        <label class="form-label" for="edit-nama">Nama Barang</label>
+        <input class="form-input" type="text" id="edit-nama" placeholder="Nama Barang" required>
+        <label class="form-label" for="edit-img">Upload gambar Barang</label>
+        <input class="form-input" type="file" id="edit-img">
+        <button class="btn" type="submit">Edit & Simpan Barang</button>
+        <button class="btn" type="button" style="background:#E11D48;" onclick="showStok()">Kembali</button>
+      </form>
+    </div>
+   <!-- SETTING PAGE -->
+<div class="card" id="setting-page" style="display:none;">
+    <div class="title">Gudang Saya</div>
+    <form id="setting-form">
+      <label class="form-label">Caesar Adhityansyah</label>
+      <input class="form-input" type="text" value="CAEsarB@gmail" readonly>
+      <input class="form-input" type="text" value="122211122221" readonly>
+      <input class="form-input" type="text" value="Owner Nih" readonly>
+      <div id="pw-section">
+        <button class="btn" type="button" id="btn-ubahpw">Ubah Password</button>
+      </div>
+      <button class="btn" type="button" style="background:#E11D48;" onclick="showStok()">Kembali</button>
+    </form>
+  </div>
+    <!-- ACCOUNT PAGE -->
+    <div class="card" id="account-page" style="display:none;">
+      <div class="title">Gudang Saya</div>
+      <form>
+        <label class="form-label">Caesar Adhityansyah</label>
+        <input class="form-input" type="text" value="CAEsarB@gmail" readonly>
+        <input class="form-input" type="text" value="122211122221" readonly>
+        <input class="form-input" type="text" value="Owner Nih" readonly>
+        <button class="btn" type="button" onclick="showStok()">KEMBALI</button>
+        <button class="btn" type="button" style="background:#E11D48;" onclick="logout()">Logout</button>
+      </form>
+    </div>
+    <!-- HELP PAGE -->
+    <div class="card" id="help-page" style="display:none;">
+      <div class="title">Bantuan</div>
+      <div style="text-align:left;font-size:1rem;line-height:1.7;">
+        <b>FAQ:</b><br>
+        <b>Q:</b> Bagaimana cara menambah stok?<br>
+        <b>A:</b> Klik tombol + di pojok kanan bawah pada halaman stok.<br><br>
+        <b>Q:</b> Bagaimana cara mengedit barang?<br>
+        <b>A:</b> Pilih menu Edit Barang di halaman stok.<br><br>
+        <b>Q:</b> Siapa yang bisa mengakses aplikasi ini?<br>
+        <b>A:</b> Hanya user terdaftar.<br><br>
+        <b>Kontak Admin:</b><br>
+        Email: admin@gudangsaya.com<br>
+        WhatsApp: 0812-3456-7890
+      </div>
+    </div>
+  </div>
+  <!-- Floating Action Button (FAB) -->
+  <button id="fab-add" style="display:none;position:fixed;bottom:80px;right:24px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#8B5CF6 60%,#22D3EE 100%);color:#fff;font-size:2.2rem;box-shadow:0 4px 16px #8B5CF688;border:none;z-index:200;cursor:pointer;transition:background 0.2s,transform 0.1s;">+</button>
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="nav-btn" id="nav-dashboard"><span>&#128200;</span><span class="nav-label">Dashboard</span></button>
+    <button class="nav-btn active" id="nav-stok"><span>&#8962;</span><span class="nav-label">View Stok</span></button>
+    <button class="nav-btn" id="nav-setting"><span>&#9881;</span><span class="nav-label">Setting</span></button>
+    <button class="nav-btn" id="nav-account"><span>&#128100;</span><span class="nav-label">Account</span></button>
+    <button class="nav-btn" id="nav-help"><span>&#10067;</span><span class="nav-label">Bantuan</span></button>
+  </div>
+  <script>
+    // Toast Notification
+    function showToast(msg, color='#8B5CF6') {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.background = color;
+      toast.style.display = 'block';
+      setTimeout(()=>{ toast.style.opacity = 1; }, 10);
+      setTimeout(()=>{ toast.style.opacity = 0; setTimeout(()=>{toast.style.display='none';}, 400); }, 2200);
+    }
+    // Topbar
+    function setTopbar(title, show=true) {
+      const topbar = document.getElementById('topbar');
+      const t = document.getElementById('topbar-title');
+      t.innerText = title||'';
+      topbar.style.display = show ? 'flex' : 'none';
+    }
+    // Show/hide password
+    function togglePassword(id, btn) {
+      const inp = document.getElementById(id);
+      if(inp.type==='password') { inp.type='text'; btn.innerText='🙈'; }
+      else { inp.type='password'; btn.innerText='👁️'; }
+    }
+    // FAB
+    const fab = document.getElementById('fab-add');
+    fab.onclick = function() { showAddStok(); showToast('Tambah stok baru!','#22D3EE'); };
+    // Navigasi bawah
+    const navDashboard = document.getElementById('nav-dashboard');
+    const navStok = document.getElementById('nav-stok');
+    const navSetting = document.getElementById('nav-setting');
+    const navAccount = document.getElementById('nav-account');
+    const navHelp = document.getElementById('nav-help');
+    // Halaman
+    const loginPage = document.getElementById('login-page');
+    const stokPage = document.getElementById('stok-page');
+    const registerPage = document.getElementById('register-page');
+    const historyPage = document.getElementById('history-page');
+    const addStokPage = document.getElementById('addstok-page');
+    const editStokPage = document.getElementById('editstok-page');
+    const settingPage = document.getElementById('setting-page');
+    const accountPage = document.getElementById('account-page');
+    const dashboardPage = document.getElementById('dashboard-page');
+    const helpPage = document.getElementById('help-page');
+    function hideAllPages() {
+      loginPage.style.display = 'none';
+      stokPage.style.display = 'none';
+      registerPage.style.display = 'none';
+      historyPage.style.display = 'none';
+      addStokPage.style.display = 'none';
+      editStokPage.style.display = 'none';
+      settingPage.style.display = 'none';
+      accountPage.style.display = 'none';
+      dashboardPage.style.display = 'none';
+      helpPage.style.display = 'none';
+      fab.style.display = 'none';
+      setTopbar('', false);
+    }
+    function setActiveNav(btn) {
+      navDashboard.classList.remove('active');
+      navStok.classList.remove('active');
+      navSetting.classList.remove('active');
+      navAccount.classList.remove('active');
+      navHelp.classList.remove('active');
+      if(btn) btn.classList.add('active');
+    }
+    function showLogin() {
+      hideAllPages();
+      loginPage.style.display = 'block';
+      setTopbar('Login', true);
+      setActiveNav();
+      document.querySelector('.bottom-nav').style.display = 'none';
+    }
+    function showStok() {
+      hideAllPages();
+      stokPage.style.display = 'block';
+      setTopbar('Gudang Saya', true);
+      setActiveNav(navStok);
+      fab.style.display = 'block';
+    }
+    // Login sederhana
+    if(document.getElementById('login-form')) {
+      document.getElementById('login-form').onsubmit = function(e) {
+        e.preventDefault();
+        if(!document.getElementById('username').value || !document.getElementById('password').value) {
+          showToast('Username dan password wajib diisi!','#E11D48');
+          return;
+        }
+        hideAllPages();
+        dashboardPage.style.display = 'block';
+        setActiveNav(navDashboard);
+        setTopbar('Dashboard', true);
+        document.querySelector('.bottom-nav').style.display = 'flex';
+        showToast('Login berhasil!','#4CAF50');
+      };
+    }
+    // Register
+    if(document.getElementById('register-form')) {
+      document.getElementById('register-form').onsubmit = function(e) {
+        e.preventDefault();
+        if(document.getElementById('reg-pass').value!==document.getElementById('reg-pass2').value) {
+          showToast('Password tidak sama!','#E11D48');
+          return;
+        }
+        showToast('Registrasi berhasil! Silakan login.','#4CAF50');
+        setTimeout(showLogin, 1200);
+      };
+    }
+    // Navigasi bawah
+    navDashboard.onclick = function() {
+      hideAllPages();
+      dashboardPage.style.display = 'block';
+      setActiveNav(navDashboard);
+      setTopbar('Dashboard', true);
+      fab.style.display = 'none';
+    };
+    navStok.onclick = function() {
+      hideAllPages();
+      stokPage.style.display = 'block';
+      setActiveNav(navStok);
+      setTopbar('Gudang Saya', true);
+      fab.style.display = 'block';
+    };
+    navSetting.onclick = function() {
+      hideAllPages();
+      settingPage.style.display = 'block';
+      setActiveNav(navSetting);
+      setTopbar('Setting', true);
+    };
+    navAccount.onclick = function() {
+      hideAllPages();
+      accountPage.style.display = 'block';
+      setActiveNav(navAccount);
+      setTopbar('Account', true);
+    };
+    navHelp.onclick = function() {
+      hideAllPages();
+      helpPage.style.display = 'block';
+      setActiveNav(navHelp);
+      setTopbar('Bantuan', true);
+    };
+    // Navigasi ke halaman lain
+    window.showAddStok = function() {
+      hideAllPages();
+      addStokPage.style.display = 'block';
+      setActiveNav();
+      setTopbar('Tambah Stok', true);
+    };
+    window.showEditStok = function() {
+      hideAllPages();
+      editStokPage.style.display = 'block';
+      setActiveNav();
+      setTopbar('Edit Barang', true);
+    };
+    window.showHistory = function() {
+      hideAllPages();
+      historyPage.style.display = 'block';
+      setActiveNav();
+      setTopbar('Histori', true);
+    };
+    window.showRegister = function() {
+      hideAllPages();
+      registerPage.style.display = 'block';
+      setActiveNav();
+      setTopbar('Daftar', true);
+    };
+    // Logout
+    window.logout = function() {
+      hideAllPages();
+      loginPage.style.display = 'block';
+      setTopbar('Login', true);
+      setActiveNav();
+      document.querySelector('.bottom-nav').style.display = 'none';
+      showToast('Logout berhasil!','#8B5CF6');
+    };
+    // Sembunyikan nav bawah saat belum login
+    if(document.querySelector('.bottom-nav')) {
+      document.querySelector('.bottom-nav').style.display = 'none';
+    }
+    // Default: tampilkan login
+    showLogin();
+  </script>
+</body>
+</html>
